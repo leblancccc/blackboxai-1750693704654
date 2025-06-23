@@ -80,7 +80,9 @@ class DriverRegistration():
                     licensetxt.insert(0, searchResult[4])
 
                     passwordtxt.delete(0, len(passwordtxt.get()))
-                    passwordtxt.insert(0, searchResult[7])
+                    passwordtxt.insert(0, searchResult[5])
+                    
+                    self.vehicletypetxt.set(searchResult[7])
 
 
 
@@ -133,13 +135,24 @@ class DriverRegistration():
         licensetxt = customtkinter.CTkEntry(master=centerFrame2,textvariable=self.licensetxt,   font=font720,width=250)
         licensetxt.place(x=200, y=180)
 
+        # +++++++++++++++++++++++++++++Vehicle Type Label++++++++++++++++++++++++++++
+        vehicletypelbl = customtkinter.CTkLabel(master=centerFrame2, text="Vehicle Type: ", font=font720)
+        vehicletypelbl.place(x=40, y=230)
+
+        # ++++++++++++++++++++++++++++++Vehicle Type Dropdown+++++++++++++++++++++++++++++++++++++++++++++++
+        self.vehicletypetxt = StringVar()
+        vehicletypetxt = customtkinter.CTkOptionMenu(master=centerFrame2, variable=self.vehicletypetxt, 
+                                                    values=['Car', 'Van', 'Motorcycle'], font=font720, width=250)
+        vehicletypetxt.set('Car')
+        vehicletypetxt.place(x=200, y=230)
+
         # +++++++++++++++++++++++++++++Password Label++++++++++++++++++++++++++++
         passwordlbl = customtkinter.CTkLabel(master=centerFrame2, text="Password: ", font=font720)
-        passwordlbl.place(x=40, y=230)
+        passwordlbl.place(x=40, y=280)
 
         # ++++++++++++++++++++++++++++++Password TextField++++++++++++++++++++++++++++++++++++++++++++++++++
         passwordtxt = customtkinter.CTkEntry(master=centerFrame2,textvariable=self.passwordtxt, font=font720, width=250)
-        passwordtxt.place(x=200, y=230)
+        passwordtxt.place(x=200, y=280)
 
 
 
@@ -152,7 +165,9 @@ class DriverRegistration():
                 messagebox.showwarning("Taxi Booking System", "Please fill all the fields")
 
             else:
-                driver = Driver_Libs(name=nametxt.get(), mobile=mobiletxt.get(), email=emailtxt.get(),license=licensetxt.get(), password=passwordtxt.get(),driverstatus='Active')
+                driver = Driver_Libs(name=nametxt.get(), mobile=mobiletxt.get(), email=emailtxt.get(),
+                                   license=licensetxt.get(), password=passwordtxt.get(),
+                                   driverstatus='Active', vehicletype=self.vehicletypetxt.get())
                 result = insert_record(driver)
                 if result == True:
                     msg1 = messagebox.showinfo("Taxi Booking System", "Driver is registered successfully!")
@@ -170,7 +185,7 @@ class DriverRegistration():
 
         def update():
             driver = Driver_Libs(name=nametxt.get(), mobile=mobiletxt.get(), email=emailtxt.get(),
-                                 license=licensetxt.get(), did=idtxt.get())
+                               license=licensetxt.get(), did=idtxt.get(), vehicletype=self.vehicletypetxt.get())
             updateresult=update_record(driver)
 
             if updateresult==True:
@@ -205,6 +220,7 @@ class DriverRegistration():
             self.mobiletxt.set('')
             self.licensetxt.set('')
             self.passwordtxt.set('')
+            self.vehicletypetxt.set('Car')
 
         clear_image = customtkinter.CTkImage(light_image=Image.open("E:\\College Assignments\\Second Semester\\Python\\Taxi Booking System\\Images\\user-x-regular-24.png"))
         clearbtn = customtkinter.CTkButton(master=innerFrame, image=clear_image, text="Clear Record",
