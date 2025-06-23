@@ -4,7 +4,7 @@ import sys
 
 def insert_booking(bookingInfo):
     conn=None
-    sql="""INSERT INTO booking VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"""
+    sql="""INSERT INTO booking VALUES (?,?,?,?,?,?,?,?)"""
     values=(bookingInfo.getBookingid(), bookingInfo.getPickupaddress(), bookingInfo.getDate(),
             bookingInfo.getTime(), bookingInfo.getDropoffaddress(), bookingInfo.getBookingstatus(),
             bookingInfo.getCid(), bookingInfo.getDid())
@@ -29,7 +29,7 @@ def insert_booking(bookingInfo):
 
 def update_booking(bookingInfo):
     conn=None
-    sql="""UPDATE booking SET pickupaddress=%s, date=%s, time=%s, dropoffaddress=%s, bookingstatus=%s,cid=%s, did=%s WHERE bookingid=%s"""
+    sql="""UPDATE booking SET pickupaddress=?, date=?, time=?, dropoffaddress=?, bookingstatus=?,cid=?, did=? WHERE bookingid=?"""
     values=(bookingInfo.getPickupaddress(),
             bookingInfo.getDate(),
             bookingInfo.getTime(),
@@ -99,7 +99,7 @@ def total_booking():
 
 def customerbooking_selectall(cid):
     conn=None
-    sql="""SELECT * FROM booking WHERE cid=%s"""
+    sql="""SELECT * FROM booking WHERE cid=?"""
     values=(cid,)
     Bookresult=None
     try:
@@ -121,7 +121,7 @@ def customerbooking_selectall(cid):
 
 def driver_update_booking(bookingInfo):
     conn=None
-    sql="""UPDATE booking SET bookingstatus=%s WHERE bookingid=%s"""
+    sql="""UPDATE booking SET bookingstatus=? WHERE bookingid=?"""
     values=(bookingInfo.getBookingstatus(),bookingInfo.getBookingid())
     updatebookingResult=False
     try:
@@ -142,7 +142,7 @@ def driver_update_booking(bookingInfo):
 
 def customerbooking_selectstatsubooked(cid):
     conn=None
-    sql="""SELECT * FROM booking WHERE cid=%s and bookingstatus='Pending'"""
+    sql="""SELECT * FROM booking WHERE cid=? and bookingstatus='Pending'"""
     values=(cid,)
     Bookresult=None
     try:
@@ -163,7 +163,7 @@ def customerbooking_selectstatsubooked(cid):
 
 def update_customer_booking1(bookingInfo):
     conn=None
-    sql="""UPDATE booking SET pickupaddress=%s, date=%s, time=%s, dropoffaddress=%s WHERE bookingid=%s"""
+    sql="""UPDATE booking SET pickupaddress=?, date=?, time=?, dropoffaddress=? WHERE bookingid=?"""
     values=(bookingInfo.getPickupaddress(),
             bookingInfo.getDate(),
             bookingInfo.getTime(),
@@ -190,7 +190,7 @@ def update_customer_booking1(bookingInfo):
 
 def delete_booking(bookingID):
     conn=None
-    sql="""DELETE FROM booking WHERE bookingid=%s"""
+    sql="""DELETE FROM booking WHERE bookingid=?"""
     values=(bookingID,)
     Deleteresult=False
     try:
@@ -212,7 +212,7 @@ def delete_booking(bookingID):
 
 def customer_checkbooking(cidInfo):
     conn=None
-    sql="""select date from booking where cid=%s and date=%s and bookingstatus='Pending'"""
+    sql="""select date from booking where cid=? and date=? and bookingstatus='Pending'"""
     values=(cidInfo.getCid(),cidInfo.getDate())
     checkResult=None
     try:
@@ -292,7 +292,7 @@ def validateadminbooking():
 
 def update_booking11(bid):
     conn=None
-    sql="""UPDATE booking SET bookingstatus='Cancel' WHERE bookingid=%s"""
+    sql="""UPDATE booking SET bookingstatus='Cancel' WHERE bookingid=?"""
     values=(bid,)
     updatebookingResult=False
     try:
@@ -310,5 +310,3 @@ def update_booking11(bid):
     finally:
         del values, sql, conn
         return updatebookingResult
-
-
